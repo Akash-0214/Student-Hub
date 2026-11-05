@@ -1,0 +1,248 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}Student Hub{% endblock %}
+
+{% block content %}
+<section class="hero" id="home">
+    <div class="hero-content">
+        <div class="hero-copy">
+            <p class="eyebrow">Welcome to Student Hub</p>
+            <h1>All You Need as a Student, in One Place</h1>
+            <p class="subtext">
+                Notes, question papers, projects, internships, placements, and more - all in one place.
+            </p>
+
+            <form class="search-bar" action="#">
+                <input type="text" placeholder="Search for notes, topics, resources..." aria-label="Search resources">
+                <button type="submit">Search</button>
+            </form>
+
+            <div class="tag-row">
+                <span>Data Structures</span>
+                <span>Operating Systems</span>
+                <span>AI & ML</span>
+                <span>Web Development</span>
+            </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Student learning illustration">
+            <div class="orb orb-one"></div>
+            <div class="orb orb-two"></div>
+            <div class="student-figure">
+                <div class="laptop"></div>
+                <div class="books"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="resource-section" id="notes">
+    <div class="section-header">
+        <h2>Notes</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in notes %}
+            <article class="resource-card">
+                <div class="card-icon">📘</div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.short_description|default:'Study notes and key resources for your classes.' }}</p>
+                {% if item.file %}
+                    <a href="{{ item.file.url }}" target="_blank">Download</a>
+                {% else %}
+                    <a href="#">View</a>
+                {% endif %}
+            </article>
+        {% empty %}
+            <p class="empty-state">No notes uploaded yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="resource-section" id="lab-manuals">
+    <div class="section-header">
+        <h2>Lab Manuals</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in lab_manuals %}
+            <article class="resource-card">
+                <div class="card-icon">🧪</div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.short_description|default:'Practical lab material and experiment notes.' }}</p>
+                {% if item.file %}
+                    <a href="{{ item.file.url }}" target="_blank">Download</a>
+                {% else %}
+                    <a href="#">View</a>
+                {% endif %}
+            </article>
+        {% empty %}
+            <p class="empty-state">No lab manuals uploaded yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="resource-section" id="question-papers">
+    <div class="section-header">
+        <h2>Question Papers</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in question_papers %}
+            <article class="resource-card">
+                <div class="card-icon">📝</div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.short_description|default:'Previous question papers for practice and revision.' }}</p>
+                {% if item.file %}
+                    <a href="{{ item.file.url }}" target="_blank">Download</a>
+                {% else %}
+                    <a href="#">View</a>
+                {% endif %}
+            </article>
+        {% empty %}
+            <p class="empty-state">No question papers uploaded yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="resource-section" id="projects">
+    <div class="section-header">
+        <h2>Projects</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in projects %}
+            <article class="resource-card project-card">
+                <div class="project-badge">{{ item.category }}</div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.short_description|default:'Skill-building project ideas and resources.' }}</p>
+                <div class="project-links">
+                    {% if item.demo_link %}<a href="{{ item.demo_link }}" target="_blank">Demo</a>{% endif %}
+                    {% if item.source_link %}<a href="{{ item.source_link }}" target="_blank">Source</a>{% endif %}
+                </div>
+            </article>
+        {% empty %}
+            <p class="empty-state">No projects uploaded yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="resource-section" id="placements">
+    <div class="section-header">
+        <h2>Placements</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in placements %}
+            <article class="resource-card placement-card">
+                <div class="company-tag">{{ item.company_name|slice:':2'|upper }}</div>
+                <h3>{{ item.company_name }}</h3>
+                <p>{{ item.title }}</p>
+                {% if item.link %}<a href="{{ item.link }}" target="_blank">View</a>{% endif %}
+            </article>
+        {% empty %}
+            <p class="empty-state">No placements available.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="resource-section" id="internships">
+    <div class="section-header">
+        <h2>Internships</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in internships %}
+            <article class="resource-card">
+                <div class="card-icon">💼</div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.company_name }} · {{ item.type }}</p>
+                {% if item.link %}<a href="{{ item.link }}" target="_blank">Apply</a>{% endif %}
+            </article>
+        {% empty %}
+            <p class="empty-state">No internships uploaded yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="resource-section" id="courses">
+    <div class="section-header">
+        <h2>Courses</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in courses %}
+            <article class="resource-card">
+                <div class="card-icon">🎓</div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.category }}</p>
+                {% if item.link %}<a href="{{ item.link }}" target="_blank">Explore</a>{% endif %}
+            </article>
+        {% empty %}
+            <p class="empty-state">No courses added.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="resource-section" id="youtube">
+    <div class="section-header">
+        <h2>YouTube</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in videos %}
+            <article class="resource-card">
+                <div class="card-icon">▶️</div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.category }}</p>
+                {% if item.youtube_url %}<a href="{{ item.youtube_url }}" target="_blank">Watch</a>{% endif %}
+            </article>
+        {% empty %}
+            <p class="empty-state">No videos yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="resource-section" id="tools">
+    <div class="section-header">
+        <h2>Tools</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in tools %}
+            <article class="resource-card">
+                <div class="card-icon">{{ item.icon }}</div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.short_description|default:'Useful utility or student support tool.' }}</p>
+                {% if item.link %}<a href="{{ item.link }}" target="_blank">Use</a>{% endif %}
+            </article>
+        {% empty %}
+            <p class="empty-state">No tools added.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="resource-section" id="updates">
+    <div class="section-header">
+        <h2>Updates</h2>
+    </div>
+    <div class="card-grid">
+        {% for item in updates %}
+            <article class="resource-card update-card">
+                <span class="update-badge">{{ item.badge }}</span>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.short_description }}</p>
+                <small>{{ item.date }}</small>
+            </article>
+        {% empty %}
+            <p class="empty-state">No updates posted yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% if about %}
+<section class="about-section" id="about">
+    <div class="about-copy">
+        <h2>{{ about.heading }}</h2>
+        <p>{{ about.content }}</p>
+        <a href="/admin/" class="admin-link">Manage Content</a>
+    </div>
+    {% if about.image %}
+        <div class="about-image-wrap">
+            <img src="{{ about.image.url }}" alt="Student Hub" />
+        </div>
+    {% endif %}
+</section>
+{% endif %}
+{% endblock %}
